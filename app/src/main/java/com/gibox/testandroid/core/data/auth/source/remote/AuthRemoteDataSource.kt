@@ -26,6 +26,7 @@ class AuthRemoteDataSource(private val authService: AuthService) {
 
     companion object {
         const val NETWORK_PAGE_SIZE = 6
+        const val NEXT_LOAD_DISTANCE = 1
     }
 
     suspend fun doLogin(dataLogin: LoginRequest): Flow<ApiResponse<LoginResponse>> {
@@ -53,7 +54,10 @@ class AuthRemoteDataSource(private val authService: AuthService) {
 
     fun getListUser():Flow<PagingData<DataItem>>{
         return Pager(
-            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE,enablePlaceholders = false),
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+                prefetchDistance = NEXT_LOAD_DISTANCE),
             pagingSourceFactory = {UserListPagingSource(authService)}
         ).flow
     }

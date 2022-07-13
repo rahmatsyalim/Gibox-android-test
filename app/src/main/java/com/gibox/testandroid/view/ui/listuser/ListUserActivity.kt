@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.gibox.testandroid.databinding.ActivityListUserBinding
+import com.gibox.testandroid.util.showToast
 import com.gibox.testandroid.view.adapter.ListUserAdapter
 import com.gibox.testandroid.view.adapter.ListUserLoadStateAdapter
 import com.gibox.testandroid.view.ui.viewmodel.MainViewModel
@@ -31,20 +32,24 @@ class ListUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setRecyclerView()
+
+        observeListUser()
+
     }
 
     private fun setRecyclerView(){
-        listUserAdapter.withLoadStateFooter(ListUserLoadStateAdapter(listUserAdapter))
+        val concatAdapter = listUserAdapter.withLoadStateFooter(ListUserLoadStateAdapter(listUserAdapter))
         listUserAdapter.onItemClickListener { user ->
-            // TODO: navigate to detail by id
+            showToast("Navigate to detail by id = ${user.id}")
         }
-        // TODO: init recyclerView adapter
+        listUserRecyclerView.adapter = concatAdapter
     }
 
     private fun observeListUser(){
         lifecycleScope.launchWhenStarted {
             viewModel.listUser.collectLatest { pagingData ->
-                // TODO: submit data to adapter
+                listUserAdapter.submitData(pagingData)
             }
         }
     }

@@ -6,45 +6,48 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/_10sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:clickable="true"
+   android:focusable="true"
+   android:background="?attr/selectableItemBackground"
+   android:padding="@dimen/_10sdp">
 
    <com.google.android.material.imageview.ShapeableImageView
       android:id="@+id/avatar_imageView"
-      android:scaleType="centerCrop"
-      android:background="@color/light_grey"
       android:layout_width="@dimen/_100sdp"
       android:layout_height="@dimen/_100sdp"
+      android:background="@color/light_grey"
+      android:scaleType="centerCrop"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize20Percent"/>
+      app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize20Percent" />
 
    <TextView
       android:id="@+id/name_textView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/_10sdp"
       android:textSize="@dimen/_14sdp"
       android:textStyle="bold"
       app:layout_constraintStart_toEndOf="@id/avatar_imageView"
-      app:layout_constraintTop_toTopOf="parent"
-      android:layout_marginStart="@dimen/_10sdp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
+      app:layout_constraintTop_toTopOf="parent" />
 
    <TextView
       android:id="@+id/email_textView"
-      android:textSize="@dimen/_12sdp"
-      android:layout_marginTop="@dimen/_10sdp"
-      android:layout_marginStart="@dimen/_10sdp"
-      app:layout_constraintStart_toEndOf="@id/avatar_imageView"
-      app:layout_constraintTop_toBottomOf="@id/name_textView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/_10sdp"
+      android:layout_marginTop="@dimen/_10sdp"
+      android:drawablePadding="@dimen/_5sdp"
+      android:textSize="@dimen/_12sdp"
       app:drawableStartCompat="@drawable/ic_field_email"
       app:drawableTint="@color/purple_500"
-      android:drawablePadding="@dimen/_5sdp"/>
+      app:layout_constraintStart_toEndOf="@id/avatar_imageView"
+      app:layout_constraintTop_toBottomOf="@id/name_textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

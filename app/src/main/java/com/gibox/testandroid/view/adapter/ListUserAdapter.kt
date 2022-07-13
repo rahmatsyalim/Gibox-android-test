@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gibox.testandroid.core.data.auth.source.remote.response.DataItem
 import com.gibox.testandroid.databinding.ItemUserBinding
+import com.gibox.testandroid.util.loadImage
 
 
 /**
@@ -34,6 +35,12 @@ class ListUserAdapter : PagingDataAdapter<DataItem, ListUserAdapter.ListUserView
    inner class ListUserViewHolder(private val binding: ItemUserBinding) :
       RecyclerView.ViewHolder(binding.root) {
       fun onBind(user: DataItem) {
+         val name = "${user.firstName} ${user.lastName}"
+         binding.apply {
+            avatarImageView.loadImage(user.avatar.toString())
+            nameTextView.text = name
+            emailTextView.text = user.email
+         }
          itemView.setOnClickListener {
             itemClickListener?.let { it(user) }
          }
