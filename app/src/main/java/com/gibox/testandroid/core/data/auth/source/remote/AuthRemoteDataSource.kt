@@ -25,7 +25,7 @@ import retrofit2.HttpException
 class AuthRemoteDataSource(private val authService: AuthService) {
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 10
+        const val NETWORK_PAGE_SIZE = 6
     }
 
     suspend fun doLogin(dataLogin: LoginRequest): Flow<ApiResponse<LoginResponse>> {
