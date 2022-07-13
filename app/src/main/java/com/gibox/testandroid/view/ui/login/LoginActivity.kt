@@ -10,7 +10,6 @@ package com.gibox.testandroid.view.ui.login
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.core.session.SessionRepository
 import com.gibox.testandroid.databinding.ActivityLoginBinding
 import com.gibox.testandroid.util.closeActivity
@@ -35,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
 
    private val progressBar by lazy { binding.progressBar }
 
+
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       setContentView(binding.root)
@@ -44,13 +44,44 @@ class LoginActivity : AppCompatActivity() {
          closeActivity()
       } else {
 
-         loginButton.setOnClickListener {
-            // TODO: request login
-         }
+         loginButtonSetup()
 
+         observeLoginFieldValidation()
          observeLoginRequest()
       }
 
+   }
+
+   private fun loginButtonSetup() {
+      loginButton.setOnClickListener {
+         val email = binding.emailEdittextLayout.editText?.text.toString()
+         val password = binding.passwordEdittextLayout.editText?.text.toString()
+         viewModel.validateLoginField(
+            email = email,
+            password = password
+         )
+      }
+   }
+
+   private fun observeLoginFieldValidation() {
+      viewModel.loginFieldValidationState.observe(this) { state ->
+
+         binding.emailEdittextLayout.isErrorEnabled = !state.emailError.isNullOrBlank()
+         binding.passwordEdittextLayout.isErrorEnabled = !state.passwordError.isNullOrBlank()
+
+         if (state.validated) {
+            viewModel.requestLogin(email = state.email, password = state.password)
+         }
+
+         state.apply {
+            emailError?.let {
+               binding.emailEdittextLayout.error = it
+            }
+            passwordError.let {
+               binding.passwordEdittextLayout.error = it
+            }
+         }
+      }
    }
 
    private fun observeLoginRequest() {

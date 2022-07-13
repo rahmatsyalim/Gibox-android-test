@@ -9,8 +9,15 @@ package com.gibox.testandroid.di
 
 import com.gibox.testandroid.core.domain.auth.usecase.AuthInteractor
 import com.gibox.testandroid.core.domain.auth.usecase.AuthUseCase
+import com.gibox.testandroid.core.domain.auth.usecase.field_validation.LoginFieldValidationInteractor
+import com.gibox.testandroid.core.domain.auth.usecase.field_validation.LoginFieldValidationUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    factory<AuthUseCase>{ AuthInteractor(get()) }
+   factory<AuthUseCase> {
+      AuthInteractor(get())
+   }
+   factory<LoginFieldValidationUseCase> {
+      LoginFieldValidationInteractor()
+   }
 }
