@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.core.data.vo.Resource
 import com.gibox.testandroid.core.domain.auth.usecase.AuthUseCase
@@ -60,5 +61,7 @@ class MainViewModel(
          )
       }
    }
+
+   val listUser = authUseCase.getUserList().cachedIn(viewModelScope)
 
 }

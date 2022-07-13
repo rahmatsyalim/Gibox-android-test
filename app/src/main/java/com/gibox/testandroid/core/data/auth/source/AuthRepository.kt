@@ -41,9 +41,7 @@ class AuthRepository(private val authRemoteDataSource: AuthRemoteDataSource): IA
         }
     }
 
-    override fun getUserList(): Flow<PagingData<DataItem>> {
-        return authRemoteDataSource.getListUser()
-    }
+    override fun getUserList(): Flow<PagingData<DataItem>> = authRemoteDataSource.getListUser()
 
 
 }
