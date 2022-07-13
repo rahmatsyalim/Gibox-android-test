@@ -24,7 +24,7 @@ object Versions {
 
 
     //paging
-    const val paging_version = "3.0.0-alpha03"
+    const val paging_version = "3.1.1"
 
     //google & firebase
     const val gmsTask = "18.0.1"
