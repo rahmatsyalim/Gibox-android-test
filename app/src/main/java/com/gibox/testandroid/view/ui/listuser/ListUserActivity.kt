@@ -11,7 +11,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.gibox.testandroid.databinding.ActivityListUserBinding
-import com.gibox.testandroid.util.showToast
 import com.gibox.testandroid.view.adapter.ListUserAdapter
 import com.gibox.testandroid.view.adapter.ListUserLoadStateAdapter
 import com.gibox.testandroid.view.ui.viewmodel.MainViewModel
@@ -25,6 +24,8 @@ class ListUserActivity : AppCompatActivity() {
     private val viewModel by viewModel<MainViewModel>()
 
     private val listUserAdapter by lazy { ListUserAdapter() }
+
+    private val listUserRecyclerView by lazy { binding.listUserRecyclerView }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
