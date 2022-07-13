@@ -32,17 +32,23 @@
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/list_user_recyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+       android:id="@+id/swipeRefresh"
        android:layout_width="match_parent"
        android:layout_height="0dp"
-       android:paddingBottom="@dimen/_10sdp"
-       android:clipToPadding="false"
-       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"/>
+       app:layout_constraintEnd_toEndOf="parent">
+        <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/list_user_recyclerView"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingBottom="@dimen/_10sdp"
+           android:clipToPadding="false"
+           app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
