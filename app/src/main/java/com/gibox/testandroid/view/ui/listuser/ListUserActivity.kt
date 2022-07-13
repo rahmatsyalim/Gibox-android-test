@@ -11,6 +11,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.gibox.testandroid.databinding.ActivityListUserBinding
+import com.gibox.testandroid.util.showToast
+import com.gibox.testandroid.view.adapter.ListUserAdapter
+import com.gibox.testandroid.view.adapter.ListUserLoadStateAdapter
 import com.gibox.testandroid.view.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -21,16 +24,26 @@ class ListUserActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<MainViewModel>()
 
+    private val listUserAdapter by lazy { ListUserAdapter() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
     }
 
+    private fun setRecyclerView(){
+        listUserAdapter.withLoadStateFooter(ListUserLoadStateAdapter(listUserAdapter))
+        listUserAdapter.onItemClickListener { user ->
+            // TODO: navigate to detail by id
+        }
+        // TODO: init recyclerView adapter
+    }
+
     private fun observeListUser(){
         lifecycleScope.launchWhenStarted {
             viewModel.listUser.collectLatest { pagingData ->
-                // TODO: submit data to adapter 
+                // TODO: submit data to adapter
             }
         }
     }
