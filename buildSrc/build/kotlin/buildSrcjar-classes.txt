@@ -1,0 +1,1 @@
+/Users/rahmatsyalim/Files/Projects/Android/07-2022/TestAndroid-Gibox/buildSrc/build/classes/kotlin/main/Libs.class:/Users/rahmatsyalim/Files/Projects/Android/07-2022/TestAndroid-Gibox/buildSrc/build/classes/kotlin/main/Versions.class
