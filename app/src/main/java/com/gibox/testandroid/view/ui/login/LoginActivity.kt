@@ -9,6 +9,7 @@ package com.gibox.testandroid.view.ui.login
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.gibox.testandroid.core.data.auth.source.remote.request.LoginRequest
 import com.gibox.testandroid.core.session.SessionRepository
 import com.gibox.testandroid.databinding.ActivityLoginBinding
@@ -24,56 +25,55 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class LoginActivity : AppCompatActivity() {
 
 
-    private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
+   private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
 
-    private val viewModel by viewModel<MainViewModel>()
+   private val viewModel by viewModel<MainViewModel>()
 
-    private val session by inject<SessionRepository>()
+   private val session by inject<SessionRepository>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+   private val loginButton by lazy { binding.loginButton }
 
-        if (session.isUserLogin()){
-            openActivity(ListUserActivity::class.java)
-            closeActivity()
-        } else {
-            // login test
-            viewModel.requestLogin(LoginRequest("eve.holt@reqres.in","cityslicka"))
-            observeLoginRequest()
-        }
+   private val progressBar by lazy { binding.progressBar }
 
-    }
+   override fun onCreate(savedInstanceState: Bundle?) {
+      super.onCreate(savedInstanceState)
+      setContentView(binding.root)
 
-    private fun observeLoginRequest(){
-        viewModel.loginState.observe(this){ state ->
-            if (state.isLoading){
-                hideKeyboard()
-                // TODO: loading true
+      if (session.isUserLogin()) {
+         openActivity(ListUserActivity::class.java)
+         closeActivity()
+      } else {
+
+         loginButton.setOnClickListener {
+            // TODO: request login
+         }
+
+         observeLoginRequest()
+      }
+
+   }
+
+   private fun observeLoginRequest() {
+      viewModel.loginState.observe(this) { state ->
+
+         loginButton.isVisible = !state.isLoading
+         progressBar.isVisible = state.isLoading
+
+         if (state.isLoading) {
+            hideKeyboard()
+         }
+
+         if (state.error.isNotBlank()) {
+            showToast(state.error)
+         }
+
+         state.data?.let { data ->
+            data.token?.let {
+               session.loginUser("user", it)
+               openActivity(ListUserActivity::class.java)
+               closeActivity()
             }
-
-            if (state.error.isNotBlank()){
-                showToast(state.error)
-                // TODO: loading false
-            }
-
-            if (state.data == null && state.error.isBlank() && !state.isLoading){
-                // TODO: empty state
-                // TODO: loading false
-                showToast("Empty")
-            } else {
-                state.data?.let { data ->
-                    data.token?.let {
-                        // TODO: loading false
-                        session.loginUser("user",it)
-                    }
-                }
-            }
-
-            if (session.isUserLogin()){
-                openActivity(ListUserActivity::class.java)
-                closeActivity()
-            }
-        }
-    }
+         }
+      }
+   }
 }

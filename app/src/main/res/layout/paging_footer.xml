@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/error_msg"
         android:textColor="?android:textColorPrimary"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -30,5 +30,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="coba lagi"/>
+        android:text="@string/txt_try_again"/>
 </LinearLayout>

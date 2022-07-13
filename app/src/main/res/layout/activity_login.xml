@@ -12,4 +12,64 @@
     android:layout_height="match_parent"
     tools:context=".view.ui.login.LoginActivity">
 
+   <com.google.android.material.card.MaterialCardView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/_10sdp"
+      app:cardElevation="@dimen/_5sdp"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+      <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:gravity="center"
+         android:padding="@dimen/_20sdp"
+         android:orientation="vertical">
+         <ImageView
+            android:src="@drawable/giboxdigital"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp" />
+         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_email"
+            app:startIconDrawable="@drawable/ic_field_email"
+            android:layout_marginBottom="@dimen/_10sdp">
+            <com.google.android.material.textfield.TextInputEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:inputType="textEmailAddress"/>
+         </com.google.android.material.textfield.TextInputLayout>
+         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_password"
+            app:startIconDrawable="@drawable/ic_field_password"
+            app:passwordToggleEnabled="true"
+            android:layout_marginBottom="@dimen/_10sdp">
+            <com.google.android.material.textfield.TextInputEditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:inputType="textPassword"/>
+         </com.google.android.material.textfield.TextInputLayout>
+         <Button
+            android:id="@+id/login_button"
+            android:text="@string/txt_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+         <ProgressBar
+            android:id="@+id/progress_bar"
+            android:visibility="gone"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+      </LinearLayout>
+   </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
