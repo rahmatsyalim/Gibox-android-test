@@ -68,6 +68,6 @@ class MainViewModel(
       }
    }
 
-   val listUser = authUseCase.getUserList().cachedIn(viewModelScope)
+   fun fetchListUser() = authUseCase.getUserList().cachedIn(viewModelScope)
 
 }

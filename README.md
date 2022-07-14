@@ -1,30 +1,106 @@
-# AndroidBaseProject-MVVM
+<div id="top"></div>
 
-1. git clone --depth 1 https://gitlab.com/giboxdev/baseprojectmvvm-android.git --origin BaseProjectMVVM-Android  [NEW-PROJECT-NAME]
-2. cd [NEW-PROJECT-NAME] 
-3. create new repo 
-4. git remote add origin https://[USERNAME-GITLAB]@gitlab.com/giboxdev/NEW-PROJECT-GITLAB-ACCOUNT]/[NEW-REPO-NAME].git 
-5. git fetch --unshallow 
-6. git add . 
-7. git branch -M main
-8. git push -uf origin main
---------------------------
-9. open the new project in android studio
-10. Rename package under app/src/main/java. 
-11. Update APPLICATION_ID in app/build.gradle. 
-12. Rename Root folder project in settings.gradle -> rootProject.name = "[Your-Name-Project]"
-13. Rename package name in Manifest. 
-14. Rename Signature Copyright project in File -> Settings -> Copyright -> Copyright Profiles -> Change to name you 
 
-#Sample signature copyright
-```
-Created by [Your-Name]
-, $today.day/$today.month/$today.year
-Copyright (c) $today.year by Gibox Digital Asia.
-All Rights Reserve
-```
 
-15. git add . 
-16. git commit -m "refactoring package name
-17. git push -u origin main 
-18. Remove README.MD.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/rahmatsyalim/Gibox-android-test">
+    <img src="app/src/main/res/drawable/giboxdigital.png" alt="Logo" width="120" height="80">
+  </a>
+
+<h3 align="center">Gibox android test</h3>
+
+</div>
+
+
+
+<!-- ABOUT PROJECT -->
+
+## About Project
+
+Project ini dibuat untuk memenuhi salah satu tahap proses reqruitment karyawan oleh PT. Verita Informatika
+yang nantinya jika sudah qulified akan dipekerjakan sebagai Android Developer di PT. Gibox Digital
+Asia.
+
+Output aplikasi dari project ini :
+
+* Tampilan form halaman login
+* Validasi input form
+* Business logic untuk autentikasi login user
+* Tampilan list user dengan load on scroll menggunakan pagination
+* Animasi loading saat load on scroll
+* Tombol 'Coba lagi' jika gagal load on scroll dengan message error yang tertangkap
+* Pull to refresh untuk memuat ulang list konten
+* Placeholder dengan text informasi jika data yang diminta empty atau belum tersedia
+* Pesan error saat initial load data atau saat refresh
+* Logout untuk menghapus sesi user
+
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- BUILD WITH -->
+
+## Build With
+
+* Kotlin - Base language
+* Coroutines - Asynchronous task
+* Koin - Dependency Injection
+* Retrofit 2 dan Okhttp - Http request ke Rest API
+* Gson converter - konversi JSON ke java/kotlin object
+* Glide - Image uri loader
+* Paging 3 - Pager
+* Design patter MVVM with clean architecture
+* Remote data dari [https://reqres.in/](https://reqres.in/)
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- APP USAGE -->
+
+## App Usage
+
+Untuk auntentikasi login user dapat menggunakan email: eve.holt@reqres.in atau bisa dicek di
+[https://reqres.in/](https://reqres.in/) dan password terserah asal tidak kosong.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- KNOWN ISSUE -->
+
+## Known Issue
+
+Untuk kendala di project ini yang saya temui ada satu yaitu :
+Ketika Pager sudah melakukan initial load data list user, load on scroll sukses berjalan.
+Kemudian saat pull untuk refresh data menggunakan fungsi onrefresh() dari adapternya Pager 3,
+Initial page load terjadi tapi next loadnya tidak berjalan on scroll 
+
+  
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+
+## Contact
+
+Rahmat Syalim - rahmatsyalim@gmail.com
+
+Project
+Link: [https://github.com/rahmatsyalim/Gibox-android-test](https://github.com/rahmatsyalim/Gibox-android-test)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[linkedin-url]: https://linkedin.com/in/othneildrew
+
+[product-screenshot]: images/screenshot.png

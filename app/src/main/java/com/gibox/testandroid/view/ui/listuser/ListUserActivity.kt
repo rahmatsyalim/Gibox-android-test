@@ -15,11 +15,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.gibox.testandroid.R
 import com.gibox.testandroid.core.session.SessionRepository
 import com.gibox.testandroid.databinding.ActivityListUserBinding
 import com.gibox.testandroid.databinding.BottomSheetLogoutBinding
-import com.gibox.testandroid.util.closeActivity
 import com.gibox.testandroid.util.openActivity
 import com.gibox.testandroid.util.showToast
 import com.gibox.testandroid.view.adapter.ListUserAdapter
@@ -97,7 +95,6 @@ class ListUserActivity : AppCompatActivity() {
 
          swipeRefresh.setOnRefreshListener {
             refresh()
-            observeListUser()
          }
       }
 
@@ -105,7 +102,7 @@ class ListUserActivity : AppCompatActivity() {
 
    private fun ListUserAdapter.observeListUser() {
       this@ListUserActivity.lifecycleScope.launchWhenStarted {
-         viewModel.listUser.collectLatest { pagingData ->
+         viewModel.fetchListUser().collectLatest { pagingData ->
             submitData(pagingData)
          }
       }
