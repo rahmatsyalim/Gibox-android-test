@@ -32,16 +32,18 @@ class MainViewModel(
    private val _loginFieldValidationState = MutableLiveData(LoginFieldState())
    val loginFieldValidationState: LiveData<LoginFieldState> get() = _loginFieldValidationState
 
-   fun requestLogin(email: String, password: String) = viewModelScope.launch {
-      authUseCase.doLogin(
-         LoginRequest(email = email, password = password)
-      ).collect { result ->
+   fun requestLogin(loginRequest: LoginRequest) = viewModelScope.launch {
+      authUseCase.doLogin(loginRequest).collect { result ->
          when (result) {
             is Resource.Loading -> _loginState.value = LoginState(isLoading = true)
             is Resource.Error -> _loginState.value = LoginState(error = result.message.toString())
             is Resource.Success -> _loginState.value = LoginState(data = result.data)
          }
       }
+   }
+
+   fun clearLoginState(){
+      _loginState.value = LoginState(data = null)
    }
 
    fun validateLoginField(email: String, password: String) {
@@ -59,6 +61,10 @@ class MainViewModel(
             password = password,
             validated = true
          )
+         requestLogin(LoginRequest(
+            email = email,
+            password = password
+         ))
       }
    }
 

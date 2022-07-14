@@ -6,6 +6,7 @@
     <string name="to_login_example">Ke Contoh Login</string>
     <string name="paging_user">Halaman User</string>
     <string name="txt_login">Masuk</string>
+    <string name="txt_logout">Keluar</string>
     <string name="txt_email">Email</string>
     <string name="txt_password">Kata Sandi</string>
     <string name="txt_try_again">Coba Lagi</string>

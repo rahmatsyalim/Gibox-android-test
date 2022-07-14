@@ -9,6 +9,7 @@
     <string name="to_paging_example">To paging example</string>
     <string name="to_login_example">To Login Example</string>
     <string name="txt_login">Login</string>
+    <string name="txt_logout">Logout</string>
     <string name="txt_email">Email</string>
     <string name="txt_password">Password</string>
     <string name="txt_try_again">Try Again</string>

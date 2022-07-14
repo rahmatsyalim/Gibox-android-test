@@ -8,18 +8,27 @@
 package com.gibox.testandroid.view.ui.listuser
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import com.gibox.testandroid.R
+import com.gibox.testandroid.core.session.SessionRepository
 import com.gibox.testandroid.databinding.ActivityListUserBinding
+import com.gibox.testandroid.databinding.BottomSheetLogoutBinding
+import com.gibox.testandroid.util.closeActivity
+import com.gibox.testandroid.util.openActivity
 import com.gibox.testandroid.util.showToast
 import com.gibox.testandroid.view.adapter.ListUserAdapter
 import com.gibox.testandroid.view.adapter.ListUserLoadStateAdapter
+import com.gibox.testandroid.view.ui.login.LoginActivity
 import com.gibox.testandroid.view.ui.viewmodel.MainViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.flow.collectLatest
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ListUserActivity : AppCompatActivity() {
@@ -34,16 +43,22 @@ class ListUserActivity : AppCompatActivity() {
 
    private val swipeRefresh by lazy { binding.swipeRefresh }
 
+   private val session by inject<SessionRepository>()
+
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       setContentView(binding.root)
 
       setRecyclerView()
 
+      binding.moreImageView.setOnClickListener {
+         showBottomSheet()
+      }
+
    }
 
    private fun ListUserAdapter.setLoadStateListener() {
-      lifecycleScope.launchWhenStarted {
+      this@ListUserActivity.lifecycleScope.launchWhenStarted {
          loadStateFlow.collectLatest { loadState ->
             loadState.init(
                loadingState = { visible ->
@@ -52,14 +67,14 @@ class ListUserActivity : AppCompatActivity() {
                emptyState = { visible ->
                   binding.noDataTextView.isVisible = visible
                },
-               errorMsg = { visible,message ->
-                  if (visible == true){
+               errorMsg = { visible, message ->
+                  if (visible == true) {
                      binding.noDataTextView.visibility = View.VISIBLE
                   }
                   binding.noDataTextView.text = message
                }
             )
-            if (loadState.append.endOfPaginationReached){
+            if (loadState.append.endOfPaginationReached) {
                showToast("All contents loaded")
             }
          }
@@ -73,8 +88,8 @@ class ListUserActivity : AppCompatActivity() {
             withLoadStateFooter(ListUserLoadStateAdapter(this))
 
          onItemClickListener { user ->
-               showToast("Navigate to detail by id = ${user.id}")
-            }
+            showToast("Navigate to detail by id = ${user.id}")
+         }
 
          observeListUser()
 
@@ -82,13 +97,14 @@ class ListUserActivity : AppCompatActivity() {
 
          swipeRefresh.setOnRefreshListener {
             refresh()
+            observeListUser()
          }
       }
 
    }
 
    private fun ListUserAdapter.observeListUser() {
-      lifecycleScope.launchWhenStarted {
+      this@ListUserActivity.lifecycleScope.launchWhenStarted {
          viewModel.listUser.collectLatest { pagingData ->
             submitData(pagingData)
          }
@@ -98,7 +114,7 @@ class ListUserActivity : AppCompatActivity() {
    private fun CombinedLoadStates.init(
       loadingState: (Boolean) -> Unit,
       emptyState: (Boolean) -> Unit,
-      errorMsg: (Boolean?,String?) -> Unit
+      errorMsg: (Boolean?, String?) -> Unit
    ) {
       loadingState(refresh is LoadState.Loading)
 
@@ -109,11 +125,27 @@ class ListUserActivity : AppCompatActivity() {
       )
 
       val errorState =
-            source.refresh as? LoadState.Error
+         source.refresh as? LoadState.Error
             ?: refresh as? LoadState.Error
 
       errorState?.let {
-         errorMsg(true,it.error.message + "\n\nPull to refresh")
+         errorMsg(true, it.error.message + "\n\nPull to refresh")
       }
+   }
+
+   private fun showBottomSheet() {
+      val bindingBottomSheet = BottomSheetLogoutBinding.inflate(LayoutInflater.from(this))
+      val dialog = BottomSheetDialog(this)
+      dialog.setContentView(bindingBottomSheet.root)
+      bindingBottomSheet.logoutTextView.setOnClickListener {
+         logout()
+      }
+      dialog.show()
+   }
+
+   private fun logout() {
+      session.logoutUser()
+      openActivity(LoginActivity::class.java)
+      finish()
    }
 }

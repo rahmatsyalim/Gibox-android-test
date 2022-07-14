@@ -10,6 +10,7 @@ package com.gibox.testandroid.view.ui.login
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.gibox.testandroid.core.session.SessionRepository
 import com.gibox.testandroid.databinding.ActivityLoginBinding
 import com.gibox.testandroid.util.closeActivity
@@ -18,6 +19,7 @@ import com.gibox.testandroid.util.openActivity
 import com.gibox.testandroid.util.showToast
 import com.gibox.testandroid.view.ui.listuser.ListUserActivity
 import com.gibox.testandroid.view.ui.viewmodel.MainViewModel
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -39,16 +41,15 @@ class LoginActivity : AppCompatActivity() {
       super.onCreate(savedInstanceState)
       setContentView(binding.root)
 
-      if (session.isUserLogin()) {
+      if (session.isUserLogin() && !session.getTokenUser().isNullOrBlank()) {
          openActivity(ListUserActivity::class.java)
-         closeActivity()
-      } else {
-
-         loginButtonSetup()
-
-         observeLoginFieldValidation()
-         observeLoginRequest()
+         finish()
       }
+
+      loginButtonSetup()
+
+      observeLoginFieldValidation()
+      observeLoginRequest()
 
    }
 
@@ -68,10 +69,6 @@ class LoginActivity : AppCompatActivity() {
 
          binding.emailEdittextLayout.isErrorEnabled = !state.emailError.isNullOrBlank()
          binding.passwordEdittextLayout.isErrorEnabled = !state.passwordError.isNullOrBlank()
-
-         if (state.validated) {
-            viewModel.requestLogin(email = state.email, password = state.password)
-         }
 
          state.apply {
             emailError?.let {
@@ -101,8 +98,9 @@ class LoginActivity : AppCompatActivity() {
          state.data?.let { data ->
             data.token?.let {
                session.loginUser("user", it)
+               viewModel.clearLoginState()
                openActivity(ListUserActivity::class.java)
-               closeActivity()
+               finish()
             }
          }
       }
