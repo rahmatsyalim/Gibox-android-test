@@ -13,4 +13,5 @@
     <string name="txt_password">Password</string>
     <string name="txt_try_again">Try Again</string>
     <string name="paging_user">Paging User</string>
+    <string name="txt_no_data">No content found</string>
 </resources>

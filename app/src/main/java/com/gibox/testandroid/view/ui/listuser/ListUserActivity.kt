@@ -8,7 +8,9 @@
 package com.gibox.testandroid.view.ui.listuser
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -18,7 +20,6 @@ import com.gibox.testandroid.view.adapter.ListUserAdapter
 import com.gibox.testandroid.view.adapter.ListUserLoadStateAdapter
 import com.gibox.testandroid.view.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ListUserActivity : AppCompatActivity() {
@@ -49,10 +50,13 @@ class ListUserActivity : AppCompatActivity() {
                   swipeRefresh.isRefreshing = visible
                },
                emptyState = { visible ->
-                  // TODO: empty visibility
+                  binding.noDataTextView.isVisible = visible
                },
-               errorMsg = { message ->
-                  // TODO: error message
+               errorMsg = { visible,message ->
+                  if (visible == true){
+                     binding.noDataTextView.visibility = View.VISIBLE
+                  }
+                  binding.noDataTextView.text = message
                }
             )
             if (loadState.append.endOfPaginationReached){
@@ -94,7 +98,7 @@ class ListUserActivity : AppCompatActivity() {
    private fun CombinedLoadStates.init(
       loadingState: (Boolean) -> Unit,
       emptyState: (Boolean) -> Unit,
-      errorMsg: (String) -> Unit
+      errorMsg: (Boolean?,String?) -> Unit
    ) {
       loadingState(refresh is LoadState.Loading)
 
@@ -105,15 +109,11 @@ class ListUserActivity : AppCompatActivity() {
       )
 
       val errorState =
-         source.append as? LoadState.Error
-            ?: source.prepend as? LoadState.Error
-            ?: source.refresh as? LoadState.Error
-            ?: append as? LoadState.Error
-            ?: prepend as? LoadState.Error
+            source.refresh as? LoadState.Error
             ?: refresh as? LoadState.Error
 
       errorState?.let {
-         errorMsg(it.error.message.toString())
+         errorMsg(true,it.error.message + "\n\nPull to refresh")
       }
    }
 }
